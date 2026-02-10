@@ -62,16 +62,16 @@
 //   .finally(() => console.log("Operation completed."));
 
 // 07 Promises Async/Await
-import getPokemonById from "./js-foundation/07-async-await.js";
+// import getPokemonById from "./js-foundation/07-async-await.js";
 
-getPokemonById(4)
-  .then((name) => console.log("Pokémon name:", name))
-  .catch((error) => console.error("Error fetching Pokémon:", error))
-  .finally(() => console.log("Operation completed."));
+// getPokemonById(4)
+//   .then((name) => console.log("Pokémon name:", name))
+//   .catch((error) => console.error("Error fetching Pokémon:", error))
+//   .finally(() => console.log("Operation completed."));
 
-// Node Logger - Winston
-import buildLogger from "./plugins/logger.plugin.js";
-const logger = buildLogger("app.js");
+// // Node Logger - Winston
+// import buildLogger from "./plugins/logger.plugin.js";
+// const logger = buildLogger("app.js");
 
-logger.log("This is an informational message from app.js!");
-logger.error("This is an error message from app.js!");
+// logger.log("This is an informational message from app.js!");
+// logger.error("This is an error message from app.js!");

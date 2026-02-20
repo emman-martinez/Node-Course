@@ -3,7 +3,7 @@ console.log(process.env);
 const { SHELL } = process.env;
 // console.log(`Your shell is: ${SHELL}`);
 // console.log(`Homebrew is installed at: ${HOMEBREW_PREFIX}`);
-const characters = ["Luke", "Leia", "Han", "Chewbacca", "Yoda"];
+export const characters = ["Luke", "Leia", "Han", "Chewbacca", "Yoda"];
 
 const [_, __, ___, fourth] = characters;
 

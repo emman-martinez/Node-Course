@@ -8,13 +8,18 @@ interface GetUserById {
   ): void;
 }
 
-const users = [
+interface User {
+  id: number;
+  name: string;
+}
+
+const users: User[] = [
   { id: 1, name: "Alice" },
   { id: 2, name: "Bob" },
   { id: 3, name: "Charlie" },
 ];
 
-const getUserById: GetUserById = (id, callback) => {
+export const getUserById: GetUserById = (id, callback) => {
   const user = users.find(function (user) {
     return user.id === id;
   });
@@ -27,3 +32,19 @@ const getUserById: GetUserById = (id, callback) => {
 };
 
 export default getUserById;
+
+// export const getUserById: GetUserById = (id, callback) => {
+//   const user = users.find(function (user) {
+//     return user.id === id;
+//   });
+
+//   if (!user) {
+//     setTimeout(() => {
+//       callback(`User with id ${id} not found`);
+//     }, 2500);
+
+//     return;
+//   }
+
+//   return callback(null, user);
+// };

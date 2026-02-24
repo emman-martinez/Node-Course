@@ -12,4 +12,15 @@ describe("js-foundation/03-callbacks.ts", () => {
       done();
     });
   });
+
+  test("getUserById should return a user if it exists", (done) => {
+    const id = 2;
+
+    getUserById(id, (error, user) => {
+      expect(error).toBeNull();
+      expect(user).toEqual({ id: 2, name: "Bob" });
+
+      done();
+    });
+  });
 });

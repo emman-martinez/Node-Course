@@ -11,8 +11,16 @@ describe("plugins/getAge.plugin.ts", () => {
     const birthday = "1985-10-21";
     const age = getAge(birthday);
     const calculatedAge =
-      new Date().getFullYear() - new Date(birthday).getFullYear() - 1;
+      new Date().getFullYear() - new Date(birthday).getFullYear();
 
     expect(age).toBe(calculatedAge);
+  });
+
+  test("getAge() should return 0 years", () => {
+    const spy = jest.spyOn(Date.prototype, "getFullYear").mockReturnValue(1995);
+    const birthday = "1995-10-21";
+    const age = getAge(birthday);
+    expect(age).toBe(0);
+    expect(spy).toHaveBeenCalled();
   });
 });

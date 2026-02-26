@@ -9,6 +9,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
+    "test:watch:coverage": "jest --watch --coverage",
     "test:coverage": "jest --coverage",
     "dev": "nodemon",
     "build": "rimraf ./dist && tsc",

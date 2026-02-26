@@ -1,0 +1,1 @@
+{"version":3,"file":"http-client.plugin.d.ts","sourceRoot":"","sources":["../../src/plugins/http-client.plugin.ts"],"names":[],"mappings":"AAEA,QAAA,MAAM,gBAAgB;eACH,MAAM;gBAOL,MAAM,QAAQ,GAAG;eAGlB,MAAM,QAAQ,GAAG;kBAGd,MAAM;CAG3B,CAAC;AAEF,eAAe,gBAAgB,CAAC"}

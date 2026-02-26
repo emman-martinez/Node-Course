@@ -12,8 +12,8 @@
     "test:watch:coverage": "jest --watch --coverage",
     "test:coverage": "jest --coverage",
     "dev": "nodemon",
-    "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node dist/app.js"
+    "build": "npm run test && rimraf ./dist && tsc",
+    "start": "node dist/app.js"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

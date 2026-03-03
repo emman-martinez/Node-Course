@@ -7,11 +7,19 @@ import { ServerApp, RunOptions } from "./presentation/server-app";
 })();
 
 async function main() {
-  const { base, limit, s: showTable } = yarg as Arguments<RunOptions>;
+  const {
+    base,
+    destination,
+    limit,
+    name,
+    s: showTable,
+  } = yarg as Arguments<RunOptions>;
 
   ServerApp.run({
     base,
+    destination,
     limit,
+    name,
     showTable: showTable as boolean,
   });
 }

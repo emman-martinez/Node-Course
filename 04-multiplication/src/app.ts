@@ -7,11 +7,11 @@ import { ServerApp, RunOptions } from "./presentation/server-app";
 })();
 
 async function main() {
-  const { base, limit, show } = yarg as Arguments<RunOptions>;
+  const { base, limit, s: showTable } = yarg as Arguments<RunOptions>;
 
   ServerApp.run({
     base,
     limit,
-    show,
+    showTable: showTable as boolean,
   });
 }

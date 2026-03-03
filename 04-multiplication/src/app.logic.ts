@@ -1,7 +1,14 @@
 import * as fs from "node:fs";
+import { yarg } from "./config/plugins/yargs.plugin";
+import { Arguments } from "yargs";
 
-const base = 5;
-const limit = 10;
+interface Args {
+  base: number;
+  limit: number;
+  show: boolean;
+}
+
+const { base, limit, show: showTable } = yarg as Args & Arguments;
 
 const line = "=".repeat(50);
 const title = `Tabla del ${base}`;
@@ -23,7 +30,7 @@ for (let i = 1; i <= limit; i++) {
 }
 
 row = header + "\n" + row;
-console.log(row);
+if (showTable) console.log(row);
 
 const outputDir = "outputs";
 fs.mkdirSync(outputDir, { recursive: true });

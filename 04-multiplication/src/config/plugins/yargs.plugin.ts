@@ -20,4 +20,9 @@ export const yarg = yargs(hideBin(process.argv))
     description: "Show the multiplication table in the console",
     default: false,
   })
+  .check((argv, options) => {
+    if (argv.b < 1) throw "Error: The base number must be greater than 0";
+    if (argv.l < 1) throw "Error: The limit number must be greater than 0";
+    return true;
+  })
   .parseSync() as Arguments;

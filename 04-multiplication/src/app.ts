@@ -1,12 +1,17 @@
+import { Arguments } from "yargs";
 import { yarg } from "./config/plugins/yargs.plugin";
-
-// console.log(process.argv);
-// console.log(yarg.b);
+import { ServerApp, RunOptions } from "./presentation/server-app";
 
 (async () => {
   await main();
 })();
 
 async function main() {
-  console.log(yarg);
+  const { base, limit, show } = yarg as Arguments<RunOptions>;
+
+  ServerApp.run({
+    base,
+    limit,
+    show,
+  });
 }

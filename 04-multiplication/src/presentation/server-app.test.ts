@@ -23,27 +23,27 @@ describe("Server App", () => {
   });
 
   test("should run ServerApp with options", () => {
-    // const logSpy = jest.spyOn(console, "log");
-    // const createTableSpy = jest.spyOn(CreateTable.prototype, "execute");
-    // const saveFileSpy = jest.spyOn(SaveFile.prototype, "execute");
-    // ServerApp.run(options);
-    // expect(logSpy).toHaveBeenCalledTimes(2);
-    // expect(logSpy).toHaveBeenCalledWith("ServerApp is running...");
-    // expect(logSpy).toHaveBeenCalledWith(
-    //   `File "${options.name}.txt" has been created in the "${options.destination}" directory.`,
-    // );
-    // expect(createTableSpy).toHaveBeenCalledTimes(1);
-    // expect(createTableSpy).toHaveBeenCalledWith({
-    //   base: options.base,
-    //   limit: options.limit,
-    // });
-    // expect(saveFileSpy).toHaveBeenCalledTimes(1);
-    // expect(saveFileSpy).toHaveBeenCalledWith({
-    //   fileContent: expect.any(String),
-    //   fileDestination: options.destination,
-    //   fileName: options.name,
-    // });
-    // logSpy.mockRestore();
+    const logSpy = jest.spyOn(console, "log");
+    const createTableSpy = jest.spyOn(CreateTable.prototype, "execute");
+    const saveFileSpy = jest.spyOn(SaveFile.prototype, "execute");
+    ServerApp.run(options);
+    expect(logSpy).toHaveBeenCalledTimes(2);
+    expect(logSpy).toHaveBeenCalledWith("ServerApp is running...");
+    expect(logSpy).toHaveBeenCalledWith(
+      `File "${options.name}.txt" has been created in the "${options.destination}" directory.`,
+    );
+    expect(createTableSpy).toHaveBeenCalledTimes(1);
+    expect(createTableSpy).toHaveBeenCalledWith({
+      base: options.base,
+      limit: options.limit,
+    });
+    expect(saveFileSpy).toHaveBeenCalledTimes(1);
+    expect(saveFileSpy).toHaveBeenCalledWith({
+      fileContent: expect.any(String),
+      fileDestination: options.destination,
+      fileName: options.name,
+    });
+    logSpy.mockRestore();
   });
 
   test("should run with custom values mocked", () => {

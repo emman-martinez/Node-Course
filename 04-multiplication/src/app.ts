@@ -8,18 +8,18 @@ import { ServerApp, RunOptions } from "./presentation/server-app";
 
 async function main() {
   const {
-    base,
-    destination,
-    limit,
-    name,
+    b: base,
+    d: destination,
+    l: limit,
+    n: name,
     s: showTable,
   } = yarg as Arguments<RunOptions>;
 
   ServerApp.run({
-    base,
-    destination,
-    limit,
-    name,
+    base: base as number,
+    destination: destination as string,
+    limit: limit as number,
+    name: name as string,
     showTable: showTable as boolean,
   });
 }

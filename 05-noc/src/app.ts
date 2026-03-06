@@ -1,3 +1,9 @@
-const name: string = "Emmanuel";
+import Server from "./presentation/server";
 
-console.log(`Hello, World ${name}!`);
+(async () => {
+  main();
+})();
+
+function main() {
+  Server.start();
+}

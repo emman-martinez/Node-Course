@@ -1,0 +1,17 @@
+{
+  "name": "06-json-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx json-server db.json"
+  },
+  "keywords": [],
+  "author": "Emmanuel Martinez",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "json-server": "^1.0.0-beta.12"
+  }
+}

@@ -1,3 +1,4 @@
+import { CheckService } from "../domain/use-cases/check/check-service";
 import CronService from "./cron/cron-service";
 
 class Server {
@@ -5,9 +6,9 @@ class Server {
   // static: belongs to the class, not an instance of the class
   public static start() {
     console.log("Server started");
+
     CronService.createJob("*/5 * * * * *", () => {
-      const date = new Date();
-      console.log("Cron job executed every 5 seconds", date);
+      new CheckService().execute("https://www.google.com");
     });
   }
 }

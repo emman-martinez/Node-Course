@@ -4,8 +4,8 @@ interface CheckServiceUseCase {
   execute(url: string): Promise<boolean>;
 }
 
-type SuccessCallback = () => void;
-type ErrorCallback = (error: string) => void;
+type SuccessCallback = () => void | undefined;
+type ErrorCallback = (error: string) => void | undefined;
 
 export class CheckService implements CheckServiceUseCase {
   constructor(
@@ -29,7 +29,7 @@ export class CheckService implements CheckServiceUseCase {
       const log = new LogEntity(LogSeverityLevel.low, `Service ${url} working`);
 
       this.logRepository.saveLog(log);
-      this.successCallback(); // Call the success callback if the request was successful
+      this.successCallback() && this.successCallback(); // Call the success callback if the request was successful
 
       return true; // Return true if the request was successful
     } catch (error) {
@@ -37,7 +37,7 @@ export class CheckService implements CheckServiceUseCase {
       const log = new LogEntity(LogSeverityLevel.high, errorMessage);
 
       this.logRepository.saveLog(log);
-      this.errorCallback(errorMessage); // Call the error callback if there was an error
+      this.errorCallback(errorMessage) && this.errorCallback(errorMessage); // Call the error callback if there was an error
 
       return false; // Return false if there was an error fetching the URL
     }

@@ -31,7 +31,7 @@ class Server {
         errorCallback,
       );
 
-      checkService.execute("http://localhost:3000");
+      checkService.execute(url);
 
       // new CheckService(successCallback, errorCallback).execute("http://localhost:3000");
     });

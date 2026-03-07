@@ -7,9 +7,18 @@ class Server {
   public static start() {
     console.log("Server started");
 
+    const successCallback = (url: string) => {
+      console.log(`Successfully checked URL: ${url}`);
+    };
+
+    const errorCallback = (error: string) => {
+      console.log(error);
+    };
+
     CronService.createJob("*/5 * * * * *", () => {
-      new CheckService().execute("https://www.google.com");
-      // new CheckService().execute("http://localhost:3000");
+      const url = "https://www.google.com";
+      new CheckService(() => successCallback(url), errorCallback).execute(url);
+      // new CheckService(successCallback, errorCallback).execute("http://localhost:3000");
     });
   }
 }

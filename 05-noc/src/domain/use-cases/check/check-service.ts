@@ -6,7 +6,7 @@ export class CheckService implements CheckServiceUseCase {
   public async execute(url: string): Promise<boolean> {
     try {
       const req = await fetch(url);
-      if (req.ok) {
+      if (!req.ok) {
         throw new Error(`HTTP error! status: ${req.status}, url: ${url}`);
       }
 

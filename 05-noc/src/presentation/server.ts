@@ -13,28 +13,30 @@ class Server {
   public static start() {
     console.log("Server started");
 
-    const successCallback = (url: string) => {
-      console.log(`Successfully checked URL: ${url}`);
-    };
+    // Send Email
 
-    const errorCallback = (error: string) => {
-      console.log(error);
-    };
+    // const successCallback = (url: string) => {
+    //   console.log(`Successfully checked URL: ${url}`);
+    // };
 
-    CronService.createJob("*/5 * * * * *", () => {
-      const url = "https://www.google.com";
-      const handleSuccessCallback = () => successCallback(url);
+    // const errorCallback = (error: string) => {
+    //   console.log(error);
+    // };
 
-      const checkService = new CheckService(
-        fileSystemLogRepository,
-        handleSuccessCallback,
-        errorCallback,
-      );
+    // CronService.createJob("*/5 * * * * *", () => {
+    //   const url = "https://www.google.com";
+    //   const handleSuccessCallback = () => successCallback(url);
 
-      checkService.execute(url);
+    //   const checkService = new CheckService(
+    //     fileSystemLogRepository,
+    //     handleSuccessCallback,
+    //     errorCallback,
+    //   );
 
-      // new CheckService(successCallback, errorCallback).execute("http://localhost:3000");
-    });
+    //   checkService.execute(url);
+
+    //   // new CheckService(successCallback, errorCallback).execute("http://localhost:3000");
+    // });
   }
 }
 

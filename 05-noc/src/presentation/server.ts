@@ -15,7 +15,7 @@ class Server {
     console.log("Server started");
 
     // Send Email
-    // const emailService = new EmailService();
+    // const emailService = new EmailService(fileSystemLogRepository);
     // emailService.sendEmail({
     //   to: "emasesosos@gmail.com",
     //   subject: "Test Email from Node.js",

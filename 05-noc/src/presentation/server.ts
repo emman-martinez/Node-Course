@@ -15,12 +15,13 @@ class Server {
     console.log("Server started");
 
     // Send Email
-    const emailService = new EmailService();
-    emailService.sendEmail({
-      to: "emasesosos@gmail.com",
-      subject: "Test Email from Node.js",
-      htmlBody: "<h1>Hello from Node.js!</h1><p>This is a test email.</p>",
-    });
+    // const emailService = new EmailService();
+    // emailService.sendEmail({
+    //   to: "emasesosos@gmail.com",
+    //   subject: "Test Email from Node.js",
+    //   htmlBody: "<h1>Hello from Node.js!</h1><p>This is a test email.</p>",
+    // });
+    // emailService.sendEmailWithFileSystemLogs("emasesosos@gmail.com");
 
     // const successCallback = (url: string) => {
     //   console.log(`Successfully checked URL: ${url}`);

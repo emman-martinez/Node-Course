@@ -1,1 +1,0 @@
-{"version":3,"file":"log.entity.d.ts","sourceRoot":"","sources":["../../../src/domain/entities/log.entity.ts"],"names":[],"mappings":"AAAA,oBAAY,gBAAgB;IAC1B,GAAG,QAAQ;IACX,MAAM,WAAW;IACjB,IAAI,SAAS;CACd;AAED,qBAAa,SAAS;IACb,KAAK,EAAE,gBAAgB,CAAC;IACxB,OAAO,EAAE,MAAM,CAAC;IAChB,SAAS,EAAE,IAAI,CAAC;gBAEX,KAAK,EAAE,gBAAgB,EAAE,OAAO,EAAE,MAAM;CAKrD"}

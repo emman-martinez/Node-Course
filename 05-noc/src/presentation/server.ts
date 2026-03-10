@@ -1,11 +1,12 @@
-import { CheckService } from "../domain/use-cases/check/check-service";
+// import { CheckService } from "../domain/use-cases/check/check-service";
+import { SendEmailLogs } from "../domain/use-cases/email/send-email-logs";
 import { FileSystemDataSource } from "../infrastructure/datasources/file-system.datasource";
 import { LogRepositoryImpl } from "../infrastructure/repositories/log-repository.impl";
-import CronService from "./cron/cron-service";
+// import CronService from "./cron/cron-service";
 import { EmailService } from "./email/email-service";
 
+const emailService = new EmailService();
 const fileSystemDataSource = new FileSystemDataSource();
-
 const fileSystemLogRepository = new LogRepositoryImpl(fileSystemDataSource);
 
 class Server {
@@ -15,7 +16,13 @@ class Server {
     console.log("Server started");
 
     // Send Email
-    // const emailService = new EmailService(fileSystemLogRepository);
+    // const sendEmailLogs = new SendEmailLogs(
+    //   emailService,
+    //   fileSystemLogRepository,
+    // );
+
+    // sendEmailLogs.execute("emasesosos@gmail.com");
+
     // emailService.sendEmail({
     //   to: "emasesosos@gmail.com",
     //   subject: "Test Email from Node.js",

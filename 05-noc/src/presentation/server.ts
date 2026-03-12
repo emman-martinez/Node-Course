@@ -60,7 +60,7 @@ class Server {
     //   console.log(error);
     // };
 
-    // Single repository
+    // // Single repository
     // CronService.createJob("*/5 * * * * *", () => {
     //   const url = "https://www.google.com";
     //   const handleSuccessCallback = () => successCallback(url);

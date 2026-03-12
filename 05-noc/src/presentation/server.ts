@@ -11,7 +11,7 @@ const emailService = new EmailService();
 const fileSystemDataSource = new FileSystemDataSource();
 const mongoDataSource = new MongoLogDataSource();
 const dataSources = { fileSystemDataSource, mongoDataSource };
-const logRepoository = new LogRepositoryImpl(dataSources.fileSystemDataSource);
+const logRepoository = new LogRepositoryImpl(dataSources.mongoDataSource);
 
 class Server {
   // public: accessible from anywhere

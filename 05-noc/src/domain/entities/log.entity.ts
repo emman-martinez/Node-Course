@@ -27,6 +27,10 @@ export class LogEntity {
   }
 
   static fromJSON(json: string): LogEntity {
+    if (json.trim() === "") {
+      throw new Error("Cannot create LogEntity from empty JSON");
+    }
+
     const { createdAt, level, message, origin } = JSON.parse(json);
     const log = new LogEntity({ level, message, origin, createdAt });
     log.createdAt = new Date(createdAt);

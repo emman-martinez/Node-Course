@@ -6,6 +6,7 @@
 import type { Config } from "jest";
 
 const config: Config = {
+  roots: ["<rootDir>/src"],
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -95,7 +96,12 @@ const config: Config = {
   // moduleNameMapper: {},
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
-  // modulePathIgnorePatterns: [],
+  modulePathIgnorePatterns: [
+    "<rootDir>/postgres",
+    "<rootDir>/postgres-test",
+    "<rootDir>/mongo",
+    "<rootDir>/mongo-test",
+  ],
 
   // Activates notifications for test results
   // notify: false,
@@ -163,9 +169,13 @@ const config: Config = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "<rootDir>/postgres",
+    "<rootDir>/postgres-test",
+    "<rootDir>/mongo",
+    "<rootDir>/mongo-test",
+  ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
@@ -192,7 +202,12 @@ const config: Config = {
   // verbose: undefined,
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
-  // watchPathIgnorePatterns: [],
+  watchPathIgnorePatterns: [
+    "<rootDir>/postgres",
+    "<rootDir>/postgres-test",
+    "<rootDir>/mongo",
+    "<rootDir>/mongo-test",
+  ],
 
   // Whether to use watchman for file crawling
   // watchman: true,

@@ -6,12 +6,18 @@ import CronService from "./cron/cron-service";
 import { EmailService } from "./email/email-service";
 import { MongoLogDataSource } from "../infrastructure/datasources/mongo-log.datasource";
 import { LogSeverityLevel } from "../domain/entities/log.entity";
+import { PostgresLogDataSource } from "../infrastructure/datasources/postgres-log.datasource";
 
 const emailService = new EmailService();
 const fileSystemDataSource = new FileSystemDataSource();
 const mongoDataSource = new MongoLogDataSource();
-const dataSources = { fileSystemDataSource, mongoDataSource };
-const logRepoository = new LogRepositoryImpl(dataSources.mongoDataSource);
+const postgresDataSource = new PostgresLogDataSource();
+const dataSources = {
+  fileSystemDataSource,
+  mongoDataSource,
+  postgresDataSource,
+};
+const logRepoository = new LogRepositoryImpl(dataSources.postgresDataSource);
 
 class Server {
   // public: accessible from anywhere
@@ -34,29 +40,29 @@ class Server {
     // });
     // emailService.sendEmailWithFileSystemLogs("emasesosos@gmail.com");
 
-    const logs = await logRepoository.getLogs(LogSeverityLevel.medium);
-    console.log(logs);
+    // const logs = await logRepoository.getLogs(LogSeverityLevel.high);
+    // console.log(logs);
 
-    // const successCallback = (url: string) => {
-    //   console.log(`Successfully checked URL: ${url}`);
-    // };
+    const successCallback = (url: string) => {
+      console.log(`Successfully checked URL: ${url}`);
+    };
 
-    // const errorCallback = (error: string) => {
-    //   console.log(error);
-    // };
+    const errorCallback = (error: string) => {
+      console.log(error);
+    };
 
-    // CronService.createJob("*/5 * * * * *", () => {
-    //   const url = "https://www.googledzfgdfgdfg.com";
-    //   const handleSuccessCallback = () => successCallback(url);
+    CronService.createJob("*/5 * * * * *", () => {
+      const url = "https://www.google.com";
+      const handleSuccessCallback = () => successCallback(url);
 
-    //   const checkService = new CheckService(
-    //     logRepoository,
-    //     handleSuccessCallback,
-    //     errorCallback,
-    //   );
+      const checkService = new CheckService(
+        logRepoository,
+        handleSuccessCallback,
+        errorCallback,
+      );
 
-    //   checkService.execute(url);
-    // });
+      checkService.execute(url);
+    });
   }
 }
 

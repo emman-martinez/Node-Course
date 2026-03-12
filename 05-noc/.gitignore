@@ -13,3 +13,4 @@ postgres/
 /src/generated/prisma
 mongo-test/
 postgres-test/
+coverage/

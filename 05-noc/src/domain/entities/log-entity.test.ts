@@ -8,7 +8,7 @@ describe("log-entity.ts", () => {
   };
 
   const json = `{
-      "level": "low",
+      "level": "medium",
       "message": "This is a test log from JSON",
       "origin": "log-entity.test.ts",
       "createdAt": "2024-06-01T12:00:00.000Z"

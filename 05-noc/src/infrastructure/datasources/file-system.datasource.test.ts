@@ -109,4 +109,27 @@ describe("file-system.datasource.ts", () => {
     expect(logsMedium).toEqual(expect.arrayContaining([log2]));
     expect(logsHigh).toEqual(expect.arrayContaining([log3]));
   });
+
+  test("should not throw an error if path exists", () => {
+    new FileSystemDataSource();
+    new FileSystemDataSource();
+
+    expect(true).toBeTruthy();
+  });
+
+  test("should throw an error if severity level is not defined", async () => {
+    const logDataSource = new FileSystemDataSource();
+    const customSeverityLevel = "SUPER_MEGA_HIGH" as LogSeverityLevel;
+
+    try {
+      await logDataSource.getLogs(customSeverityLevel);
+      expect(true).toBeFalsy(); // This line should not be reached
+    } catch (error) {
+      const errorString = `${error}`;
+      expect(error).toBeInstanceOf(Error);
+      expect(errorString).toContain(
+        `Invalid severity level ${customSeverityLevel}`,
+      );
+    }
+  });
 });

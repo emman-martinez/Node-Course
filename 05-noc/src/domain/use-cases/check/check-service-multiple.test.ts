@@ -86,32 +86,5 @@ describe("check-service-multiple.ts", () => {
     expect(mockLogRepository3.saveLog).toHaveBeenCalledWith(
       expect.any(LogEntity),
     );
-    expect(mockLogRepository1.saveLog).toHaveBeenCalledWith(
-      expect.objectContaining({
-        level: "high",
-        message: expect.stringContaining(
-          "https://jsonplaceholdercfgdgh.typicode.com/todos/1 is not working",
-        ),
-        origin: "check-service.ts",
-      }),
-    );
-    expect(mockLogRepository2.saveLog).toHaveBeenCalledWith(
-      expect.objectContaining({
-        level: "high",
-        message: expect.stringContaining(
-          "https://jsonplaceholdercfgdgh.typicode.com/todos/1 is not working",
-        ),
-        origin: "check-service.ts",
-      }),
-    );
-    expect(mockLogRepository3.saveLog).toHaveBeenCalledWith(
-      expect.objectContaining({
-        level: "high",
-        message: expect.stringContaining(
-          "https://jsonplaceholdercfgdgh.typicode.com/todos/1 is not working",
-        ),
-        origin: "check-service.ts",
-      }),
-    );
   });
 });

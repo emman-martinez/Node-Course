@@ -1,26 +1,32 @@
 import * as express from "express";
 import * as path from "path";
 
+interface Options {
+  port: number;
+  publicPath?: string;
+}
+
 export class Server {
   private app = express();
-  private folder: string;
-  private port: number;
+  private readonly port: number;
+  private readonly publicPath: string;
 
-  constructor(folder: string, port: number) {
-    this.folder = folder;
+  constructor(options: Options) {
+    const { port, publicPath = "public" } = options;
     this.port = port;
+    this.publicPath = publicPath;
   }
 
   async start() {
     // Middleware and routes would be set up here
     // Public folder
-    this.app.use(express.static(this.folder));
+    this.app.use(express.static(this.publicPath));
 
     this.app.use((req, res) => {
       const indexPath = path.join(
         __dirname,
         "../../",
-        this.folder,
+        this.publicPath,
         "index.html",
       );
       res.sendFile(indexPath);

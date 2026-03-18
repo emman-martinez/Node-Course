@@ -36,11 +36,19 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, { "Content-Type": "text/html" });
     res.write(htmlFile);
     res.end();
-  } else {
-    res.writeHead(404, { "Content-Type": "text/html" });
-    res.write("<h1>404 Not Found</h1>");
-    res.end();
+
+    return;
   }
+
+  if (req.url?.endsWith(".js")) {
+    res.writeHead(200, { "Content-Type": "application/javascript" });
+  } else if (req.url?.endsWith(".css")) {
+    res.writeHead(200, { "Content-Type": "text/css" });
+  }
+
+  const responseContent = fs.readFileSync(`./public${req.url}`, "utf-8"); // Read the contents of the requested file synchronously based on the URL of the request and store it in the responseContent variable.
+  res.write(responseContent); // Write the contents of the requested file to the response body.
+  res.end(); // End the response and send it back to the client. The response will contain the contents of the requested file.
 });
 
 server.listen(8080, () => {

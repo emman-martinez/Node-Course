@@ -1,4 +1,5 @@
 import * as http from "http";
+import * as fs from "fs";
 
 // Create an HTTP server that listens on port 8080 and responds with "Hello, World!" to any request.
 // This is a simple example of an HTTP server using Node.js.
@@ -14,10 +15,32 @@ import * as http from "http";
 const server = http.createServer((req, res) => {
   console.log(`Received request: ${req.method} ${req.url}`);
 
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "text/plain");
-  res.write("Hello, World!\n");
-  res.end();
+  // Server as renderer: In this example, the server is acting as a renderer by generating an HTML response
+  // based on the incoming request URL.
+  // res.writeHead(200, { "Content-Type": "text/html" }); // Set the response status code to 200 (OK) and the Content-Type header to text/html.
+  // res.write(`<h1>URL: ${req.url}</h1>`); //
+  // res.end(); // End the response and send it back to the client. The response will contain an HTML heading with the URL of the request.
+
+  // const data = {
+  //   name: "John Doe",
+  //   age: 30,
+  //   city: "New York",
+  // };
+
+  // res.writeHead(200, { "Content-Type": "application/json" }); // Set the response status code to 200 (OK) and the Content-Type header to application/json.
+  // res.write(JSON.stringify(data)); // Convert the data object to a JSON string and write it to the response body.
+  // res.end(); // End the response and send it back to the client. The response will contain the JSON representation of the data object.
+
+  if (req.url === "/") {
+    const htmlFile = fs.readFileSync("./public/index.html", "utf-8"); // Read the contents of the index.html file synchronously and store it in the htmlFile variable.
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write(htmlFile);
+    res.end();
+  } else {
+    res.writeHead(404, { "Content-Type": "text/html" });
+    res.write("<h1>404 Not Found</h1>");
+    res.end();
+  }
 });
 
 server.listen(8080, () => {

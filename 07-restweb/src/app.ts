@@ -5,6 +5,9 @@ import { Server } from "./presentation/server";
 })();
 
 function main() {
-  const server = new Server("public", 3000);
+  const folder = "public";
+  const port = 3000;
+  const server = new Server(folder, port);
+
   server.start();
 }

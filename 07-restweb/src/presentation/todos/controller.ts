@@ -17,7 +17,7 @@ const todos = [
     id: 3,
     title: "Deploy to production",
     completed: false,
-    createdAt: new Date(),
+    createdAt: null,
   },
 ];
 
@@ -32,19 +32,32 @@ export class TodosController {
     const id = +req.params.id!;
 
     if (isNaN(id))
-      res.status(400).json({ error: `Invalid id: ${req.params.id} parameter` });
+      return res
+        .status(400)
+        .json({ error: `Invalid id: ${req.params.id} parameter` });
 
     const todo = todos.find((t) => t.id === id);
 
-    if (!todo) {
+    if (!todo)
       return res.status(404).json({ error: `Todo with id: ${id} not found` });
-    }
 
     res.json(todo);
   };
 
   public createTodo = (req: Request, res: Response) => {
-    const body = req.body;
-    res.json(body);
+    const { title } = req.body;
+
+    if (!title) return res.status(400).json({ error: "Title is required" });
+
+    const newTodo = {
+      id: todos.length + 1,
+      title,
+      completed: false,
+      createdAt: null,
+    };
+
+    todos.push(newTodo);
+
+    res.json(newTodo);
   };
 }

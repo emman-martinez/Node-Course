@@ -42,4 +42,9 @@ export class TodosController {
 
     res.json(todo);
   };
+
+  public createTodo = (req: Request, res: Response) => {
+    const body = req.body;
+    res.json(body);
+  };
 }

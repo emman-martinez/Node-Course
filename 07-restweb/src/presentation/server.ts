@@ -21,12 +21,16 @@ export class Server {
   }
 
   async start() {
-    // Middleware and routes would be set up here
+    /* Middlewares */
+    // Middleware to parse JSON bodies (e.g., application/json, raw)
+    this.app.use(express.json());
+    // Middleware to parse URL-encoded data (e.g., form submissions, x-www-form-urlencoded)
+    this.app.use(express.urlencoded({ extended: true }));
 
-    // Public folder
+    /* Public folder */
     this.app.use(express.static(this.publicPath));
 
-    // Routes
+    /* Routes */
     this.app.use(this.routes);
 
     // Fallback to index.html for SPA routing
@@ -40,7 +44,7 @@ export class Server {
       res.sendFile(indexPath);
     });
 
-    // Start the server
+    /* Start the server */
     this.app.listen(this.port, () => {
       console.log(`Server is running on port: ${this.port}`);
     });

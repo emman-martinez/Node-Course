@@ -5,8 +5,7 @@ interface Todo {
   title: string;
   subTypeId?: number | null;
   subType?: string | null;
-  completed: boolean;
-  createdAt: Date | null;
+  completedAt: Date | null;
 }
 
 const todos: Todo[] = [
@@ -15,24 +14,21 @@ const todos: Todo[] = [
     title: "Learn TypeScript",
     subTypeId: 4,
     subType: "Programming",
-    completed: false,
-    createdAt: new Date(),
+    completedAt: new Date(),
   },
   {
     id: 2,
     title: "Build a Node.js app",
     subTypeId: 5,
     subType: "Programming Project",
-    completed: true,
-    createdAt: new Date(),
+    completedAt: new Date(),
   },
   {
     id: 3,
     title: "Deploy to production",
     subTypeId: 6,
     subType: "Deployment",
-    completed: false,
-    createdAt: new Date(),
+    completedAt: new Date(),
   },
 ];
 
@@ -82,12 +78,38 @@ export class TodosController {
       title,
       subTypeId: null,
       subType: null,
-      completed: false,
-      createdAt: null,
+      completedAt: null,
     };
 
     todos.push(newTodo);
 
     res.json(newTodo);
+  };
+
+  public updateTodo = (req: Request, res: Response) => {
+    const id = +req.params.id!;
+
+    if (isNaN(id))
+      return res
+        .status(400)
+        .json({ error: `Invalid id: ${req.params.id} parameter` });
+
+    const todo = todos.find((t) => t.id === id);
+
+    if (!todo)
+      return res.status(404).json({ error: `Todo with id: ${id} not found` });
+
+    const { title, completedAt } = req.body;
+
+    todo.title = title || todo.title;
+
+    if (completedAt === null) {
+      todo.completedAt = null;
+    } else {
+      const completedAtDate = new Date(completedAt || todo.completedAt);
+      todo.completedAt = completedAtDate;
+    }
+
+    res.json(todo);
   };
 }

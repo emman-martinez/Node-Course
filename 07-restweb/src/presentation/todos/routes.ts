@@ -10,6 +10,7 @@ export class TodoRoutes {
     router.get("/:id", todosController.getTodoById);
     router.get("/subType/:subTypeId", todosController.getTodosBySubTypeId);
     router.post("/", todosController.createTodo);
+    router.put("/:id", todosController.updateTodo);
 
     return router;
   }

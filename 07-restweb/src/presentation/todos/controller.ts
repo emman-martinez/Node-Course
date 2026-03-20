@@ -35,17 +35,26 @@ const todos: Todo[] = [
 export class TodosController {
   constructor() {}
 
+  private parseIdParam = (req: Request, res: Response): number | null => {
+    const id = +req.params.id!;
+
+    if (isNaN(id)) {
+      res
+        .status(400)
+        .json({ error: `Invalid id: ${req.params.id} parameter` });
+      return null;
+    }
+
+    return id;
+  };
+
   public getTodos = (req: Request, res: Response) => {
     res.json(todos);
   };
 
   public getTodoById = (req: Request, res: Response) => {
-    const id = +req.params.id!;
-
-    if (isNaN(id))
-      return res
-        .status(400)
-        .json({ error: `Invalid id: ${req.params.id} parameter` });
+    const id = this.parseIdParam(req, res);
+    if (id === null) return;
 
     const todo = todos.find((t) => t.id === id);
 
@@ -87,12 +96,8 @@ export class TodosController {
   };
 
   public updateTodo = (req: Request, res: Response) => {
-    const id = +req.params.id!;
-
-    if (isNaN(id))
-      return res
-        .status(400)
-        .json({ error: `Invalid id: ${req.params.id} parameter` });
+    const id = this.parseIdParam(req, res);
+    if (id === null) return;
 
     const todo = todos.find((t) => t.id === id);
 
@@ -111,5 +116,19 @@ export class TodosController {
     }
 
     res.json(todo);
+  };
+
+  public deleteTodo = (req: Request, res: Response) => {
+    const id = this.parseIdParam(req, res);
+    if (id === null) return;
+
+    const index = todos.findIndex((t) => t.id === id);
+
+    if (index === -1)
+      return res.status(404).json({ error: `Todo with id: ${id} not found` });
+
+    const deletedTodo = todos.splice(index, 1)[0];
+
+    res.json(deletedTodo);
   };
 }

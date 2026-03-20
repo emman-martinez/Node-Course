@@ -11,6 +11,7 @@ export class TodoRoutes {
     router.get("/subType/:subTypeId", todosController.getTodosBySubTypeId);
     router.post("/", todosController.createTodo);
     router.put("/:id", todosController.updateTodo);
+    router.delete("/:id", todosController.deleteTodo);
 
     return router;
   }

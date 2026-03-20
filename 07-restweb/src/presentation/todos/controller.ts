@@ -1,23 +1,38 @@
 import { Request, Response } from "express";
 
-const todos = [
+interface Todo {
+  id: number;
+  title: string;
+  subTypeId?: number | null;
+  subType?: string | null;
+  completed: boolean;
+  createdAt: Date | null;
+}
+
+const todos: Todo[] = [
   {
     id: 1,
     title: "Learn TypeScript",
+    subTypeId: 4,
+    subType: "Programming",
     completed: false,
     createdAt: new Date(),
   },
   {
     id: 2,
     title: "Build a Node.js app",
+    subTypeId: 5,
+    subType: "Programming Project",
     completed: true,
     createdAt: new Date(),
   },
   {
     id: 3,
     title: "Deploy to production",
+    subTypeId: 6,
+    subType: "Deployment",
     completed: false,
-    createdAt: null,
+    createdAt: new Date(),
   },
 ];
 
@@ -44,6 +59,19 @@ export class TodosController {
     res.json(todo);
   };
 
+  public getTodosBySubTypeId = (req: Request, res: Response) => {
+    const subTypeId = +req.params.subTypeId!;
+
+    if (isNaN(subTypeId))
+      return res.status(400).json({
+        error: `Invalid subTypeId: ${req.params.subTypeId} parameter`,
+      });
+
+    const filteredTodos = todos.filter((t) => t.subTypeId === subTypeId);
+
+    res.json(filteredTodos);
+  };
+
   public createTodo = (req: Request, res: Response) => {
     const { title } = req.body;
 
@@ -52,6 +80,8 @@ export class TodosController {
     const newTodo = {
       id: todos.length + 1,
       title,
+      subTypeId: null,
+      subType: null,
       completed: false,
       createdAt: null,
     };

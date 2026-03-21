@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import prismaClient from "../../data/postgres";
 
 interface Todo {
   id: number;
@@ -39,9 +40,7 @@ export class TodosController {
     const id = +req.params.id!;
 
     if (isNaN(id)) {
-      res
-        .status(400)
-        .json({ error: `Invalid id: ${req.params.id} parameter` });
+      res.status(400).json({ error: `Invalid id: ${req.params.id} parameter` });
       return null;
     }
 
@@ -64,33 +63,15 @@ export class TodosController {
     res.json(todo);
   };
 
-  public getTodosBySubTypeId = (req: Request, res: Response) => {
-    const subTypeId = +req.params.subTypeId!;
-
-    if (isNaN(subTypeId))
-      return res.status(400).json({
-        error: `Invalid subTypeId: ${req.params.subTypeId} parameter`,
-      });
-
-    const filteredTodos = todos.filter((t) => t.subTypeId === subTypeId);
-
-    res.json(filteredTodos);
-  };
-
-  public createTodo = (req: Request, res: Response) => {
+  public createTodo = async (req: Request, res: Response) => {
     const { title } = req.body;
-
     if (!title) return res.status(400).json({ error: "Title is required" });
 
-    const newTodo = {
-      id: todos.length + 1,
-      title,
-      subTypeId: null,
-      subType: null,
-      completedAt: null,
-    };
-
-    todos.push(newTodo);
+    const newTodo = await prismaClient.todo.create({
+      data: {
+        title,
+      },
+    });
 
     res.json(newTodo);
   };

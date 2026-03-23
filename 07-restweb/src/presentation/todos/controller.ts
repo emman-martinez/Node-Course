@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prismaClient from "../../data/postgres";
-import { CreateTodoDto } from "../../domain/dtos";
+import { CreateTodoDto, UpdateTodoDto } from "../../domain/dtos";
 
 interface Todo {
   id: number;
@@ -60,15 +60,18 @@ export class TodosController {
     const todo = await prismaClient.todo.findFirst({
       where: { id },
     });
+
     this.notFoundElementResponse(todo, id, res);
-    const { title, completedAt } = req.body;
+
+    const [error, updateTodoDto] = UpdateTodoDto.update({ ...req.body, id });
+
+    if (error) return res.status(400).json({ error });
+
     const updatedTodo = await prismaClient.todo.update({
       where: { id },
-      data: {
-        title,
-        completedAt: completedAt ? new Date(completedAt) : null,
-      },
+      data: updateTodoDto!.values,
     });
+
     res.json(updatedTodo);
   };
 

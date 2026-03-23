@@ -1,9 +1,9 @@
 export class CreateTodoDto {
   private constructor(public readonly title: string) {}
 
-  static create(
-    props?: Record<string, unknown>,
-  ): [string | undefined, CreateTodoDto | undefined] {
+  static create(props?: {
+    [key: string]: any;
+  }): [string | undefined, CreateTodoDto | undefined] {
     if (!props || typeof props !== "object")
       return ["Title property is required.", undefined];
 

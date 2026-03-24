@@ -3,5 +3,5 @@ node_modules/
 keys/
 .env
 dist/
-postgres/
+/postgres
 /src/generated/prisma

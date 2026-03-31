@@ -9,8 +9,8 @@ import {
 export class TodoRepositoryImpl implements TodoRepository {
   constructor(private readonly datasource: TodoDatasource) {}
 
-  create(createTodoDto: CreateTodoDto): Promise<TodoEntity> {
-    return this.datasource.create(createTodoDto);
+  create(createTodoDTO: CreateTodoDto): Promise<TodoEntity> {
+    return this.datasource.create(createTodoDTO);
   }
 
   getAll(): Promise<TodoEntity[]> {
@@ -21,8 +21,8 @@ export class TodoRepositoryImpl implements TodoRepository {
     return this.datasource.findById(id);
   }
 
-  updateById(updateTodoDto: UpdateTodoDto): Promise<TodoEntity> {
-    return this.datasource.updateById(updateTodoDto);
+  updateById(updateTodoDTO: UpdateTodoDto): Promise<TodoEntity> {
+    return this.datasource.updateById(updateTodoDTO);
   }
 
   deleteById(id: number): Promise<TodoEntity> {

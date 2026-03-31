@@ -7,9 +7,9 @@ import {
 } from "../../domain";
 
 export class TodoDatasourceImpl implements TodoDatasource {
-  async create(createTodoDto: CreateTodoDto): Promise<TodoEntity> {
+  async create(createTodoDTO: CreateTodoDto): Promise<TodoEntity> {
     const newTodo = await prismaClient.todo.create({
-      data: createTodoDto!,
+      data: createTodoDTO!,
     });
 
     return TodoEntity.fromObject(newTodo);
@@ -30,12 +30,12 @@ export class TodoDatasourceImpl implements TodoDatasource {
     return TodoEntity.fromObject(todo);
   }
 
-  async updateById(updateTodoDto: UpdateTodoDto): Promise<TodoEntity> {
-    await this.findById(updateTodoDto.id);
+  async updateById(updateTodoDTO: UpdateTodoDto): Promise<TodoEntity> {
+    await this.findById(updateTodoDTO.id);
 
     const updatedTodo = await prismaClient.todo.update({
-      where: { id: updateTodoDto.id },
-      data: updateTodoDto!.values,
+      where: { id: updateTodoDTO.id },
+      data: updateTodoDTO!.values,
     });
 
     return TodoEntity.fromObject(updatedTodo);

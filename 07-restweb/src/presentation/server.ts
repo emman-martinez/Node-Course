@@ -1,3 +1,4 @@
+import * as compression from "compression";
 import * as express from "express";
 import * as path from "path";
 
@@ -22,10 +23,13 @@ export class Server {
 
   async start() {
     /* Middlewares */
+
     // Middleware to parse JSON bodies (e.g., application/json, raw)
     this.app.use(express.json());
     // Middleware to parse URL-encoded data (e.g., form submissions, x-www-form-urlencoded)
     this.app.use(express.urlencoded({ extended: true }));
+    // Middleware to compress response bodies for all requests
+    this.app.use(compression());
 
     /* Public folder */
     this.app.use(express.static(this.publicPath));

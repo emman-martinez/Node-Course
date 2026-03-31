@@ -5,7 +5,7 @@ export class CreateTodoDto {
     [key: string]: any;
   }): [string | undefined, CreateTodoDto | undefined] {
     if (!props || typeof props !== "object")
-      return ["Title property is required.", undefined];
+      return ["Invalid properties object.", undefined];
 
     const title = props.title;
 

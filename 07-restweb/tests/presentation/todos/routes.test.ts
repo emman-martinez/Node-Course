@@ -11,6 +11,10 @@ describe("Todo route testing", () => {
     testServer.close();
   });
 
+  beforeEach(async () => {
+    await prismaClient.todo.deleteMany();
+  });
+
   const todo1 = {
     title: "Buy groceries",
   };
@@ -19,7 +23,6 @@ describe("Todo route testing", () => {
   };
 
   test("should return TODOs api/todos", async () => {
-    await prismaClient.todo.deleteMany();
     await prismaClient.todo.createMany({
       data: [todo1, todo2],
     });
@@ -33,5 +36,26 @@ describe("Todo route testing", () => {
     expect(body[0].title).toBe(todo1.title);
     expect(body[1].title).toBe(todo2.title);
     expect(body[0].completedAt).toBeNull();
+  });
+
+  test("should return a single TODO by id api/todos/:id", async () => {
+    const createdTodo = await prismaClient.todo.create({
+      data: todo1,
+    });
+
+    const { body } = await request(testServer.app)
+      .get(`/api/todos/${createdTodo.id}`)
+      .expect(200);
+
+    expect(body).toHaveProperty("id", createdTodo.id);
+    expect(body).toHaveProperty("title", createdTodo.title);
+    expect(body).toHaveProperty("completedAt", null);
+    expect(body).toEqual(
+      expect.objectContaining({
+        id: createdTodo.id,
+        title: createdTodo.title,
+        completedAt: createdTodo.completedAt,
+      }),
+    );
   });
 });

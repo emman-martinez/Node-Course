@@ -1,11 +1,12 @@
 import { envs } from "../src/config/envs";
 import { Server } from "../src/presentation/server";
+import { main } from "../src/app";
 
-jest.mock("../src/presentation/server.ts");
+jest.mock("../src/presentation/server");
 
 describe("Testing App.ts", () => {
-  test("should call server with arguments and start", async () => {
-    await import("../src/app");
+  test("should call server with arguments and start", () => {
+    main();
 
     expect(Server).toHaveBeenCalledTimes(1);
     expect(Server).toHaveBeenCalledWith({

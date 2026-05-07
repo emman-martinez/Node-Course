@@ -5,3 +5,7 @@ keys/
 dist/
 /postgres
 /src/generated/prisma
+coverage
+coverage/
+/coverage
+coverage/*

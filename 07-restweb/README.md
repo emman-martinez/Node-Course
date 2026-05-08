@@ -43,6 +43,26 @@ Recommended:
 
 - Use a dedicated test database (for example `TODO_TEST`) in `.env.test`.
 
+## Bootstrap From Zero (No Global Prisma)
+
+You do not need Prisma installed globally on your machine.
+All Prisma commands here run through local project dependencies using `npx`.
+
+```bash
+npm install
+cp .env.template .env
+docker compose up -d
+npx prisma migrate deploy
+npx prisma generate
+npm run dev
+```
+
+Notes:
+
+- `npm install` installs `prisma` and `@prisma/client` from `package.json`.
+- `npx prisma ...` uses the local Prisma CLI from `node_modules`.
+- If `src/generated/prisma` does not exist yet, `npx prisma generate` creates required artifacts.
+
 ## 1) Prerequisites
 
 - `Node.js` 20+ (20 or 22 LTS recommended)

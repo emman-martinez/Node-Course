@@ -134,6 +134,7 @@ describe("Todo route testing", () => {
     expect(body).toEqual({ error: `Todo with id: ${todoId} not found` });
   });
 
+  // TODO: MAKE THE OPERATION WITH CUSTOM ERRORS
   test("should return an updated TODO only the date should be updated", async () => {
     const todo = await prismaClient.todo.create({
       data: todo1,

@@ -115,6 +115,19 @@ npm run test:coverage
 npm run hooks:install
 ```
 
+Windows-compatible hook install commands:
+
+```bash
+npm run hooks:install
+npm run hooks:install:windows
+```
+
+Unix/macOS-specific hook install command:
+
+```bash
+npm run hooks:install:unix
+```
+
 - `pre-commit` runs lint + prettier check.
 - `pre-push` runs smoke tests by default.
 - Use `PREPUSH_FULL=1 git push` to run full test suite on push.

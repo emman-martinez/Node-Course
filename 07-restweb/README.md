@@ -25,6 +25,7 @@ Copy-Item .env.template .env
 Windows note:
 
 - Open Docker Desktop and wait until it is running before `docker compose up -d`.
+- In PowerShell or CMD, use `npm run hooks:install` or `npm run hooks:install:windows`. Do not use the Unix-only `npm run hooks:install:unix` unless you are in Git Bash or another shell with `sh`.
 
 ## Quick Start for Tests
 
@@ -42,6 +43,7 @@ npm test
 Recommended:
 
 - Use a dedicated test database (for example `TODO_TEST`) in `.env.test`.
+- If you also want Git hooks on Windows, prefer `npm run hooks:install` or `npm run hooks:install:windows`.
 
 ## Bootstrap From Zero (No Global Prisma)
 
@@ -62,6 +64,7 @@ Notes:
 - `npm install` installs `prisma` and `@prisma/client` from `package.json`.
 - `npx prisma ...` uses the local Prisma CLI from `node_modules`.
 - If `src/generated/prisma` does not exist yet, `npx prisma generate` creates required artifacts.
+- On Windows PowerShell or CMD, install hooks with `npm run hooks:install` or `npm run hooks:install:windows`.
 
 ## 1) Prerequisites
 
@@ -196,6 +199,12 @@ Install hooks once after cloning:
 npm run hooks:install
 ```
 
+Available hook install commands:
+
+- `npm run hooks:install`: cross-platform option for Windows, PowerShell, CMD, macOS, and Linux
+- `npm run hooks:install:windows`: explicit Windows installer
+- `npm run hooks:install:unix`: explicit Unix/macOS installer using `sh`
+
 Manual quality checks:
 
 ```bash
@@ -303,6 +312,12 @@ npx prisma migrate deploy
 npx prisma generate
 npm run dev
 ```
+
+Git hooks on Windows:
+
+- Use `npm run hooks:install` as the default option.
+- If you want the explicit Windows command, use `npm run hooks:install:windows`.
+- `npm run hooks:install:unix` is intended for shells that provide `sh`, such as Git Bash, macOS, or Linux.
 
 For tests on Windows:
 

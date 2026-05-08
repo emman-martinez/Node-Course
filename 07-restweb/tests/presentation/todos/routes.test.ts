@@ -1,4 +1,4 @@
-import * as request from "supertest";
+import request from "supertest";
 import { testServer } from "../../test-server";
 import prismaClient from "../../../src/data/postgres";
 

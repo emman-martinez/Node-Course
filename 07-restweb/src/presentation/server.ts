@@ -1,11 +1,11 @@
-import * as compression from "compression";
-import * as express from "express";
-import * as path from "path";
+import compression from "compression";
+import express, { type Request, type Response, type Router } from "express";
+import path from "path";
 
 interface Options {
   port: number;
   publicPath?: string;
-  routes: express.Router;
+  routes: Router;
 }
 
 export class Server {
@@ -13,7 +13,7 @@ export class Server {
   private serverListener?: any;
   private readonly port: number;
   private readonly publicPath: string;
-  private readonly routes: express.Router;
+  private readonly routes: Router;
 
   constructor(options: Options) {
     const { port, publicPath = "public", routes } = options;
@@ -39,7 +39,7 @@ export class Server {
     this.app.use(this.routes);
 
     // Fallback to index.html for SPA routing
-    this.app.use((req, res) => {
+    this.app.use((req: Request, res: Response) => {
       const indexPath = path.join(
         __dirname,
         "../../",

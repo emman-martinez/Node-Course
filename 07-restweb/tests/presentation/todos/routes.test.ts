@@ -7,8 +7,9 @@ describe("Todo route testing", () => {
     await testServer.start();
   });
 
-  afterAll(() => {
+  afterAll(async () => {
     testServer.close();
+    await prismaClient.$disconnect();
   });
 
   beforeEach(async () => {

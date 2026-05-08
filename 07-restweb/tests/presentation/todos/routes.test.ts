@@ -19,6 +19,7 @@ describe("Todo route testing", () => {
   const todo1 = {
     title: "Buy groceries",
   };
+
   const todo2 = {
     title: "Walk the dog",
   };
@@ -67,5 +68,36 @@ describe("Todo route testing", () => {
       .expect(400);
 
     expect(body).toEqual({ error: `Todo with id: ${todoId} not found` });
+  });
+
+  test("should return a new TODO api/todos", async () => {
+    const { body } = await request(testServer.app)
+      .post("/api/todos")
+      .send(todo1)
+      .expect(201);
+
+    expect(body).toEqual({
+      id: expect.any(Number),
+      title: todo1.title,
+      completedAt: null,
+    });
+  });
+
+  test("should return an error if text is not present api/todos", async () => {
+    const { body } = await request(testServer.app)
+      .post("/api/todos")
+      .send({})
+      .expect(400);
+
+    expect(body).toEqual({ error: "Title property is required." });
+  });
+
+  test("should return an error if text is empty api/todos", async () => {
+    const { body } = await request(testServer.app)
+      .post("/api/todos")
+      .send({ title: "" })
+      .expect(400);
+
+    expect(body).toEqual({ error: "Title property is required." });
   });
 });

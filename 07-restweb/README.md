@@ -124,6 +124,7 @@ npm start
 
 This repo includes lightweight Git hooks to keep commit quality high:
 
+- `pre-commit`: runs `eslint` and `prettier --check`
 - `commit-msg`: validates Conventional Commit format
 - `pre-push`: runs smoke tests by default (`tests/presentation/todos/routes.test.ts`)
 - `pre-push` output is summarized on success and prints full logs only on failure
@@ -132,6 +133,13 @@ Install hooks once after cloning:
 
 ```bash
 npm run hooks:install
+```
+
+Manual quality checks:
+
+```bash
+npm run lint
+npm run format:check
 ```
 
 Run full test suite on push when needed:

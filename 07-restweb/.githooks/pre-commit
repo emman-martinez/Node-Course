@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+set -e
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+REPO_DIR="$(dirname "$SCRIPT_DIR")"
+
+cd "$REPO_DIR" || exit 1
+
+echo "Running pre-commit checks (eslint + prettier)..."
+npm run hooks:pre-commit

@@ -67,6 +67,18 @@ npm run dev
 npm run build
 ```
 
+- Lint:
+
+```bash
+npm run lint
+```
+
+- Format check:
+
+```bash
+npm run format:check
+```
+
 - Production local start:
 
 ```bash
@@ -103,6 +115,7 @@ npm run test:coverage
 npm run hooks:install
 ```
 
+- `pre-commit` runs lint + prettier check.
 - `pre-push` runs smoke tests by default.
 - Use `PREPUSH_FULL=1 git push` to run full test suite on push.
 

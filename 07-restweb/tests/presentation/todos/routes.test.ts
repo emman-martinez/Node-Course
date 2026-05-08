@@ -100,4 +100,56 @@ describe("Todo route testing", () => {
 
     expect(body).toEqual({ error: "Title property is required." });
   });
+
+  test("should return an update TODO api/todos/:id", async () => {
+    const todo = await prismaClient.todo.create({
+      data: todo1,
+    });
+
+    const { body } = await request(testServer.app)
+      .put(`/api/todos/${todo.id}`)
+      .send({
+        title: "Hello World UPDATE",
+        completedAt: "2023-10-21",
+      })
+      .expect(200);
+
+    expect(body).toEqual({
+      id: todo.id,
+      title: "Hello World UPDATE",
+      completedAt: "2023-10-21T00:00:00.000Z",
+    });
+  });
+
+  test("should return a 404 if TODO not found api/todos/:id", async () => {
+    const todoId = 999;
+    const { body } = await request(testServer.app)
+      .put(`/api/todos/${todoId}`)
+      .send({
+        title: "Hello World UPDATE",
+        completedAt: "2023-10-21",
+      })
+      .expect(400);
+
+    expect(body).toEqual({ error: `Todo with id: ${todoId} not found` });
+  });
+
+  test("should return an updated TODO only the date should be updated", async () => {
+    const todo = await prismaClient.todo.create({
+      data: todo1,
+    });
+
+    const { body } = await request(testServer.app)
+      .put(`/api/todos/${todo.id}`)
+      .send({
+        completedAt: "2023-10-21",
+      })
+      .expect(200);
+
+    expect(body).toEqual({
+      id: todo.id,
+      title: todo1.title,
+      completedAt: "2023-10-21T00:00:00.000Z",
+    });
+  });
 });

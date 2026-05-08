@@ -7,4 +7,11 @@ REPO_DIR="$(dirname "$SCRIPT_DIR")"
 cd "$REPO_DIR" || exit 1
 
 echo "Running pre-commit checks (eslint + prettier)..."
-npm run hooks:pre-commit
+
+echo "-> Linting..."
+npm run lint
+echo "Lint passed."
+
+echo "-> Checking formatting..."
+npm run format:check
+echo "Prettier check passed."

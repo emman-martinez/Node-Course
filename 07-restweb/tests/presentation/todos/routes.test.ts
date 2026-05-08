@@ -153,4 +153,29 @@ describe("Todo route testing", () => {
       completedAt: "2023-10-21T00:00:00.000Z",
     });
   });
+
+  test("should delete a TODO api/todos/:id", async () => {
+    const todo = await prismaClient.todo.create({
+      data: todo1,
+    });
+
+    const { body } = await request(testServer.app)
+      .delete(`/api/todos/${todo.id}`)
+      .expect(200);
+
+    expect(body).toEqual({
+      id: todo.id,
+      title: todo.title,
+      completedAt: null,
+    });
+  });
+
+  test("should return 404 if TODO does not exist api/todos/:id", async () => {
+    const todoId = 999;
+    const { body } = await request(testServer.app)
+      .delete(`/api/todos/${todoId}`)
+      .expect(400);
+
+    expect(body).toEqual({ error: `Todo with id: ${todoId} not found` });
+  });
 });

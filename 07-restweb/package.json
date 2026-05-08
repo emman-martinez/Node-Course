@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run prisma:migrate:test && jest",
+    "test:smoke": "npm run prisma:migrate:test && jest --runInBand --bail tests/presentation/todos/routes.test.ts",
     "test:watch": "npm run prisma:migrate:test && jest --watch",
     "test:coverage": "npm run prisma:migrate:test && jest --coverage",
     "dev": "tsnd --respawn --clear src/app.ts",
@@ -12,7 +13,9 @@
     "start": "npm run build && node dist/app.js",
     "prisma:migrate:prod": "prisma migrate deploy",
     "prisma:migrate:test": "dotenv -e .env.test -- npx prisma migrate deploy",
-    "commit:msg": "node scripts/generate-commit-message.js"
+    "commit:msg": "node scripts/generate-commit-message.js",
+    "hooks:install": "git config core.hooksPath .githooks && chmod +x .githooks/commit-msg .githooks/pre-push",
+    "hooks:check-commit-msg": "node scripts/validate-commit-msg.js"
   },
   "keywords": [],
   "author": "Emmanuel Martinez",

@@ -120,17 +120,48 @@ npm run build
 npm start
 ```
 
-## 10) Quick troubleshooting
+## 10) Git hooks (recommended)
+
+This repo includes lightweight Git hooks to keep commit quality high:
+
+- `commit-msg`: validates Conventional Commit format
+- `pre-push`: runs smoke tests by default (`tests/presentation/todos/routes.test.ts`)
+
+Install hooks once after cloning:
+
+```bash
+npm run hooks:install
+```
+
+Run full test suite on push when needed:
+
+```bash
+PREPUSH_FULL=1 git push
+```
+
+Windows PowerShell equivalent:
+
+```powershell
+$env:PREPUSH_FULL=1; git push
+```
+
+Valid commit example:
+
+```text
+docs(readme): add Windows 10+ setup notes
+```
+
+## 11) Quick troubleshooting
 
 - Postgres connection error:
-Confirm `docker compose ps` shows the container as running.
-Validate `POSTGRES_URL` in `.env` and `.env.test`.
+  - Confirm `docker compose ps` shows the container as running.
+  - Validate `POSTGRES_URL` in `.env` and `.env.test`.
 - Prisma Client not generated:
-Run `npx prisma generate`.
+  - Run `npx prisma generate`.
 - Migration error:
-Run `npx prisma migrate deploy` against the correct database.
+  - Run `npx prisma migrate deploy` against the correct database.
 
-## 11) Windows 10+ setup notes
+## 12) Windows 10+ setup notes
 
 This project works on Windows 10/11. Use one of these terminals:
 

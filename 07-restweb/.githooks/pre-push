@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+set -e
+
+if [ "$PREPUSH_FULL" = "1" ]; then
+  echo "Running full test suite before push..."
+  npm test
+else
+  echo "Running smoke tests before push (set PREPUSH_FULL=1 for full suite)..."
+  npm run test:smoke
+fi

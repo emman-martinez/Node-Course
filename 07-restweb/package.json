@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run prisma:migrate:test && jest",
     "test:smoke": "npm run prisma:migrate:test && jest --runInBand --bail tests/presentation/todos/routes.test.ts",
-    "test:watch": "npm run prisma:migrate:test && jest --watch",
+    "test:watch": "npm run prisma:migrate:test && jest --watchAll --coverage",
     "test:coverage": "npm run prisma:migrate:test && jest --coverage",
     "dev": "tsnd --respawn --clear src/app.ts",
     "build": "rimraf ./dist && tsc && npm run prisma:migrate:prod",

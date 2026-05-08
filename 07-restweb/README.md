@@ -126,6 +126,7 @@ This repo includes lightweight Git hooks to keep commit quality high:
 
 - `commit-msg`: validates Conventional Commit format
 - `pre-push`: runs smoke tests by default (`tests/presentation/todos/routes.test.ts`)
+- `pre-push` output is summarized on success and prints full logs only on failure
 
 Install hooks once after cloning:
 

@@ -6,10 +6,38 @@ REPO_DIR="$(dirname "$SCRIPT_DIR")"
 
 cd "$REPO_DIR" || exit 1
 
+run_with_summary() {
+  CMD="$1"
+  LOG_FILE="$(mktemp)"
+  CLEAN_LOG_FILE="$(mktemp)"
+
+  clean_log() {
+    sed '/SECURITY WARNING: The SSL modes/d' "$LOG_FILE" \
+      | sed "/See https:\/\/www.postgresql.org\/docs\/current\/libpq-ssl.html/d" \
+      | sed "/Use \`node --trace-warnings/d" >"$CLEAN_LOG_FILE"
+  }
+
+  if sh -c "$CMD" >"$LOG_FILE" 2>&1; then
+    clean_log
+    echo "Pre-push checks passed."
+    grep -E "Test Suites:|Tests:|Time:|PASS " "$CLEAN_LOG_FILE" | tail -n 6 || true
+    rm -f "$LOG_FILE"
+    rm -f "$CLEAN_LOG_FILE"
+    return 0
+  fi
+
+  clean_log
+  echo "Pre-push checks failed. Full output:"
+  cat "$CLEAN_LOG_FILE"
+  rm -f "$LOG_FILE"
+  rm -f "$CLEAN_LOG_FILE"
+  return 1
+}
+
 if [ "$PREPUSH_FULL" = "1" ]; then
   echo "Running full test suite before push..."
-  npm test
+  run_with_summary "npm test"
 else
   echo "Running smoke tests before push (set PREPUSH_FULL=1 for full suite)..."
-  npm run test:smoke
+  run_with_summary "npm run test:smoke"
 fi

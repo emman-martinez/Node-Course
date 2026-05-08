@@ -136,6 +136,28 @@ npm run hooks:install
 - Prefer minimal, focused changes.
 - Add or update tests when behavior changes.
 
+## Commit Message Types
+
+Use Conventional Commit types supported by repository hooks:
+
+- `feat`: adds a new user-facing feature.
+- `fix`: fixes a bug or incorrect behavior.
+- `docs`: documentation-only changes.
+- `style`: formatting/style-only changes with no logic impact.
+- `refactor`: code restructuring without behavior change.
+- `perf`: performance improvements.
+- `test`: adds or updates tests.
+- `build`: build system or dependency changes.
+- `ci`: CI/CD pipeline or workflow changes.
+- `chore`: maintenance changes unrelated to runtime behavior.
+- `revert`: reverts a previous commit.
+
+Example:
+
+```text
+fix(todos): validate id parameter in update route
+```
+
 ## Prisma and Database Notes
 
 - Schema location: `prisma/schema.prisma`

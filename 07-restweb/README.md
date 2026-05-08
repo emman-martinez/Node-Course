@@ -2,6 +2,47 @@
 
 Complete guide to run this project locally for both development and testing.
 
+## Quick Start After Clone
+
+Run these commands after cloning:
+
+```bash
+npm install
+cp .env.template .env
+docker compose up -d
+npx prisma migrate deploy
+npx prisma generate
+npm run hooks:install
+npm run dev
+```
+
+Windows PowerShell equivalent for `.env`:
+
+```powershell
+Copy-Item .env.template .env
+```
+
+Windows note:
+
+- Open Docker Desktop and wait until it is running before `docker compose up -d`.
+
+## Quick Start for Tests
+
+If your goal is running tests quickly on a fresh clone:
+
+```bash
+npm install
+cp .env.template .env
+docker compose up -d
+npx prisma migrate deploy
+npx prisma generate
+npm test
+```
+
+Recommended:
+
+- Use a dedicated test database (for example `TODO_TEST`) in `.env.test`.
+
 ## 1) Prerequisites
 
 - `Node.js` 20+ (20 or 22 LTS recommended)
@@ -160,6 +201,36 @@ Valid commit example:
 docs(readme): add Windows 10+ setup notes
 ```
 
+Allowed Conventional Commit types in this repo:
+
+- `feat`: adds a new user-facing feature.
+- `fix`: fixes a bug or incorrect behavior.
+- `docs`: updates documentation only.
+- `style`: formatting or style-only changes with no behavior impact.
+- `refactor`: code restructuring without changing behavior.
+- `perf`: improves performance.
+- `test`: adds or updates tests.
+- `build`: changes build tooling or dependencies.
+- `ci`: changes CI/CD configuration or workflows.
+- `chore`: maintenance tasks not tied to app behavior.
+- `revert`: reverts a previous commit.
+
+Examples:
+
+```text
+feat(todos): add dueDate to todo creation
+fix(todos): prevent empty title updates
+docs(readme): explain test database setup
+style(routes): format todo routes for readability
+refactor(repository): simplify todo query mapping
+perf(todos): reduce duplicate DB reads in list endpoint
+test(todos): cover PATCH /api/todos/:id validation
+build(prisma): bump prisma and regenerate client
+ci(actions): run smoke tests on pull_request
+chore(hooks): adjust pre-push logging output
+revert: revert "feat(todos): add dueDate to todo creation"
+```
+
 ## 11) Quick troubleshooting
 
 - Postgres connection error:
@@ -199,6 +270,11 @@ copy .env.template .env
 ```
 
 Everything else is the same:
+
+Important for Windows:
+
+- Open Docker Desktop and wait until it shows as running before executing `docker compose up -d`.
+- If Docker Desktop is closed (or still starting), Compose will fail because it cannot connect to the Docker daemon.
 
 ```bash
 npm install

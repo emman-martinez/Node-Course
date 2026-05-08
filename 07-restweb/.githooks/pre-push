@@ -1,6 +1,10 @@
 #!/usr/bin/env sh
 
 set -e
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+REPO_DIR="$(dirname "$SCRIPT_DIR")"
+
+cd "$REPO_DIR" || exit 1
 
 if [ "$PREPUSH_FULL" = "1" ]; then
   echo "Running full test suite before push..."

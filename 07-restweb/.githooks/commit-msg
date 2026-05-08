@@ -1,3 +1,17 @@
 #!/usr/bin/env sh
 
-npm run hooks:check-commit-msg -- "$1"
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+REPO_DIR="$(dirname "$SCRIPT_DIR")"
+
+cd "$REPO_DIR" || exit 1
+
+MSG_FILE="$1"
+
+case "$MSG_FILE" in
+  /*) ;;
+  *)
+    MSG_FILE="$(git rev-parse --git-path COMMIT_EDITMSG)"
+    ;;
+esac
+
+npm run hooks:check-commit-msg -- "$MSG_FILE"

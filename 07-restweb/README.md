@@ -204,5 +204,3 @@ For tests on Windows:
 - Keep a dedicated test database (`TODO_TEST`)
 - Make sure `.env.test` points to that DB
 - Run `npm test`
-
-Test hook validation line.

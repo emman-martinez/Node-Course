@@ -13,7 +13,7 @@ export class MongoDatabase {
       await mongoose.connect(mongoUrl, {
         dbName,
       });
-
+      console.log('Connected to MongoDB');
       return true;
     } catch (error) {
       console.error('Error connecting to MongoDB');

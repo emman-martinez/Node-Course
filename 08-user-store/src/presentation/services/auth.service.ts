@@ -1,9 +1,20 @@
-import { bcryptAdapter } from "../../config";
-import { UserModel } from "../../data";
-import { CustomError, LoginUserDto, RegisterUserDto, UserEntity } from "../../domain";
+import { bcryptAdapter, JwtAdapter } from '../../config';
+import { UserModel } from '../../data';
+import {
+  CustomError,
+  LoginUserDto,
+  RegisterUserDto,
+  UserEntity,
+} from '../../domain';
 
 export class AuthService {
   constructor() {}
+
+  private sanitizeUser(user: UserEntity) {
+    const safeUser = { ...user };
+    delete (safeUser as Partial<UserEntity>).password;
+    return safeUser;
+  }
 
   public async registerUser(registerUserDto: RegisterUserDto) {
     const existUser = await UserModel.findOne({ email: registerUserDto.email });
@@ -21,14 +32,14 @@ export class AuthService {
 
       // Send email to validate the email
 
-      const { password, ...userEntity } = UserEntity.fromObject(user);
+      const userEntity = this.sanitizeUser(UserEntity.fromObject(user));
 
       return {
         user: userEntity,
-        token: 'fake-jwt-token'
-      }
+        token: 'fake-jwt-token',
+      };
     } catch (error) {
-        throw CustomError.internalServer(`${error}`);
+      throw CustomError.internalServer(`${error}`);
     }
   }
 
@@ -37,15 +48,22 @@ export class AuthService {
 
     if (!existUser) throw CustomError.badRequest('Email does not exist');
 
-    const isPasswordValid = bcryptAdapter.compare(loginUserDto.password, existUser.password);
+    const isPasswordValid = bcryptAdapter.compare(
+      loginUserDto.password,
+      existUser.password
+    );
 
     if (!isPasswordValid) throw CustomError.badRequest('Invalid password');
 
-    const { password, ...userEntity } = UserEntity.fromObject(existUser);
+    const userEntity = this.sanitizeUser(UserEntity.fromObject(existUser));
+    const payload = { id: existUser.id, email: existUser.email };
+    const token = await JwtAdapter.generateToken(payload);
+
+    if (!token) throw CustomError.internalServer('Error generating token');
 
     return {
       user: userEntity,
-      token: 'fake-jwt-token'
+      token,
     };
   }
 }

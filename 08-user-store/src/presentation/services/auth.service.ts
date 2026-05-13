@@ -33,10 +33,14 @@ export class AuthService {
       // Send email to validate the email
 
       const userEntity = this.sanitizeUser(UserEntity.fromObject(user));
+      const payload = { id: user.id };
+      const token = await JwtAdapter.generateToken(payload);
+
+      if (!token) throw CustomError.internalServer('Error generating token');
 
       return {
         user: userEntity,
-        token: 'fake-jwt-token',
+        token,
       };
     } catch (error) {
       throw CustomError.internalServer(`${error}`);
@@ -56,7 +60,7 @@ export class AuthService {
     if (!isPasswordValid) throw CustomError.badRequest('Invalid password');
 
     const userEntity = this.sanitizeUser(UserEntity.fromObject(existUser));
-    const payload = { id: existUser.id, email: existUser.email };
+    const payload = { id: existUser.id };
     const token = await JwtAdapter.generateToken(payload);
 
     if (!token) throw CustomError.internalServer('Error generating token');

@@ -4,9 +4,7 @@ import { AuthService } from '../services/auth.service';
 
 export class AuthController {
   // DI
-  constructor(
-    public readonly authService: AuthService
-  ) {}
+  constructor(public readonly authService: AuthService) {}
 
   private handleError = (error: unknown, res: Response) => {
     if (error instanceof CustomError) {
@@ -15,30 +13,37 @@ export class AuthController {
 
     console.error(`${error}`);
     return res.status(500).json({ error: 'Internal Server Error' });
-  }
+  };
 
   registerUser = (req: Request, res: Response) => {
     const [error, registerDto] = RegisterUserDto.create(req.body);
 
     if (error) return res.status(400).json({ error });
 
-    this.authService.registerUser(registerDto!)
+    this.authService
+      .registerUser(registerDto!)
       .then((user) => res.json(user))
       .catch((error) => this.handleError(error, res));
-  }
+  };
 
   loginUser = (req: Request, res: Response) => {
     const [error, loginDto] = LoginUserDto.create(req.body);
 
     if (error) return res.status(400).json({ error });
 
-    this.authService.loginUser(loginDto!)
+    this.authService
+      .loginUser(loginDto!)
       .then((user) => res.json(user))
       .catch((error) => this.handleError(error, res));
-  }
+  };
 
   validateEmail = (req: Request, res: Response) => {
-    // Logic for validating email
-    res.json('Email validated successfully');
-  }
+    const { token } = req.params;
+    res.json(token);
+
+    // this.authService
+    //   .validateEmail(token)
+    //   .then(() => res.json({ message: 'Email validated successfully' }))
+    //   .catch((error) => this.handleError(error, res));
+  };
 }

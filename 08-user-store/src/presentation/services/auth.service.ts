@@ -9,9 +9,7 @@ import {
 import { EmailService } from './email.service';
 
 export class AuthService {
-  constructor(
-    private readonly emailService: EmailService,
-  ) {}
+  constructor(private readonly emailService: EmailService) {}
 
   private sanitizeUser(user: UserEntity) {
     const safeUser = { ...user };
@@ -37,7 +35,7 @@ export class AuthService {
       const userEntity = this.sanitizeUser(UserEntity.fromObject(user));
       const payload = { id: user.id };
 
-       // JWT <---- to maintain the user authentication
+      // JWT <---- to maintain the user authentication
       const token = await JwtAdapter.generateToken(payload);
 
       if (!token) throw CustomError.internalServer('Error generating token');
@@ -75,8 +73,8 @@ export class AuthService {
     };
   }
 
-  private sendEmailValidationLink = async(email: string) => {
-    const token = await JwtAdapter.generateToken({ email }); // Token expires in 1 hour
+  private sendEmailValidationLink = async (email: string) => {
+    const token = await JwtAdapter.generateToken({ email });
     if (!token) throw CustomError.internalServer('Error generating token');
 
     const link = `${envs.WEBSERVICE_URL}/auth/validate-email/${token}`;
@@ -89,11 +87,29 @@ export class AuthService {
       to: email,
       subject: 'Validate your email',
       htmlBody: html,
-    }
+    };
 
     const isSent = await this.emailService.sendEmail(options);
-    if(!isSent) throw CustomError.internalServer('Error sending email');
+    if (!isSent) throw CustomError.internalServer('Error sending email');
 
     return true;
-  }
+  };
+
+  public validateEmail = async (token: string) => {
+    const payload = await JwtAdapter.validateToken(token);
+    if (!payload) throw CustomError.unauthorized('Invalid token');
+
+    const { email } = payload as { email: string };
+
+    if (!email) throw CustomError.internalServer('Email not found in token');
+
+    const user = await UserModel.findOne({ email });
+
+    if (!user) throw CustomError.internalServer('Email not found');
+
+    user.emailValidated = true;
+    await user.save();
+
+    return true;
+  };
 }

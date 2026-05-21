@@ -13,12 +13,16 @@ export class AuthMiddleware {
       return res.status(401).json({ error: 'Invalid bearer token format' });
 
     const token = authorization.split(' ').at(1) || '';
+    console.log('Token received:', token);
 
     try {
       const payload = await JwtAdapter.validateToken<{ id: string }>(token);
+      console.log('Token payload:', payload);
       if (!payload) return res.status(401).json({ error: 'Invalid token' });
 
-      const user = UserModel.findById(payload.id);
+      console.log('Looking for user with ID:', payload.id);
+      const user = await UserModel.findById(payload.id);
+      console.log('User found:', user);
       if (!user)
         return res
           .status(401)

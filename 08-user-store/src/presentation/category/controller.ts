@@ -26,11 +26,9 @@ export class CategoryController {
   };
 
   getCategories = async (req: Request, res: Response) => {
-    try {
-      // Lógica para obtener las categorías
-      res.status(200).json({ message: 'Retrieved categories' });
-    } catch (error) {
-      this.handleError(error, res);
-    }
+    this.categoryService
+      .getCategories()
+      .then((categories) => res.json(categories))
+      .catch((error) => this.handleError(error, res));
   };
 }

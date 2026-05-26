@@ -1,16 +1,11 @@
 import { ProductModel } from '../../data';
-import {
-  CreateProductDto,
-  CustomError,
-  PaginationDto,
-  UserEntity,
-} from '../../domain';
+import { CreateProductDto, CustomError, PaginationDto } from '../../domain';
 
 export class ProductService {
   // DI
   constructor() {}
 
-  async createProduct(createProductDto: CreateProductDto, user: UserEntity) {
+  async createProduct(createProductDto: CreateProductDto) {
     const productExist = await ProductModel.findOne({
       name: createProductDto.name,
     });
@@ -18,18 +13,10 @@ export class ProductService {
     if (productExist) throw CustomError.badRequest('Product already exists');
 
     try {
-      const product = new ProductModel({
-        ...createProductDto,
-        user: user.id,
-      });
-
+      const product = new ProductModel(createProductDto);
       await product.save();
 
-      return {
-        id: product.id,
-        name: product.name,
-        available: product.available,
-      };
+      return product;
     } catch (error) {
       throw CustomError.internalServer(`${error}`);
     }
@@ -53,11 +40,7 @@ export class ProductService {
         next: `/api/products?page=${page + 1}&limit=${limit}`,
         previous:
           page - 1 > 0 ? `/api/products?page=${page - 1}&limit=${limit}` : null,
-        products: products.map((product) => ({
-          id: product.id,
-          name: product.name,
-          available: product.available,
-        })),
+        products,
       };
     } catch (error) {
       throw CustomError.internalServer(`${error}`);

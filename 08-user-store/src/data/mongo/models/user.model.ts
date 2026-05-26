@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [ true, 'Name is required'],
+    required: [true, 'Name is required'],
   },
   email: {
     type: String,
-    required: [ true, 'Email is required'],
+    required: [true, 'Email is required'],
     unique: true,
   },
   emailValidated: {
@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [ true, 'Password is required'],
+    required: [true, 'Password is required'],
   },
   img: {
     type: String,
@@ -25,7 +25,17 @@ const userSchema = new mongoose.Schema({
     type: [String],
     default: ['USER_ROLE'],
     enum: ['ADMIN_ROLE', 'USER_ROLE'],
-  }
+  },
+});
+
+userSchema.set('toJSON', {
+  virtuals: true,
+  versionKey: false,
+  transform: function (_doc, ret) {
+    const { _id, ...rest } = ret;
+    Reflect.deleteProperty(rest, 'password');
+    return rest;
+  },
 });
 
 export const UserModel = mongoose.model('User', userSchema);

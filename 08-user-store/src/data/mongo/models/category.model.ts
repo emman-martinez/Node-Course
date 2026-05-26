@@ -17,4 +17,13 @@ const categorySchema = new Schema({
   },
 });
 
+categorySchema.set('toJSON', {
+  virtuals: true,
+  versionKey: false,
+  transform: function (_doc, ret) {
+    const { _id, ...rest } = ret;
+    return rest;
+  },
+});
+
 export const CategoryModel = model('Category', categorySchema);

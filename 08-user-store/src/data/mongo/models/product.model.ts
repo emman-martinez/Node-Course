@@ -1,9 +1,9 @@
-import { model, Schema } from "mongoose";
+import { model, Schema } from 'mongoose';
 
 const productSchema = new Schema({
   name: {
     type: String,
-    required: [ true, 'Name is required'],
+    required: [true, 'Name is required'],
     unique: true,
   },
   available: {
@@ -26,7 +26,16 @@ const productSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Category',
     required: true,
-  }
+  },
+});
+
+productSchema.set('toJSON', {
+  virtuals: true,
+  versionKey: false,
+  transform: function (_doc, ret) {
+    const { _id, ...rest } = ret;
+    return rest;
+  },
 });
 
 export const ProductModel = model('Product', productSchema);

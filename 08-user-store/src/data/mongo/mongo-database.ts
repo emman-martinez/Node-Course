@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 interface Options {
   mongoUrl: string;
@@ -17,6 +17,17 @@ export class MongoDatabase {
       return true;
     } catch (error) {
       console.error('Error connecting to MongoDB');
+      throw error;
+    }
+  }
+
+  static async disconnect() {
+    try {
+      await mongoose.disconnect();
+      console.log('Disconnected from MongoDB');
+      return true;
+    } catch (error) {
+      console.error('Error disconnecting from MongoDB');
       throw error;
     }
   }

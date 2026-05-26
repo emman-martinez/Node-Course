@@ -1,9 +1,10 @@
-import { model, Schema } from "mongoose";
+import { model, Schema } from 'mongoose';
 
 const categorySchema = new Schema({
   name: {
     type: String,
-    required: [ true, 'Name is required'],
+    required: [true, 'Name is required'],
+    unique: true,
   },
   available: {
     type: Boolean,
@@ -13,7 +14,7 @@ const categorySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-  }
+  },
 });
 
 export const CategoryModel = model('Category', categorySchema);

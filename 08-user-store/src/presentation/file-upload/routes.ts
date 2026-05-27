@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { FileUploadController } from './controller';
 import { FileUploadService } from '../services/file-upload.service';
 import { FileUploadMiddleware } from '../middlewares/file-upload.middleware';
+import { TypeMiddleware } from '../middlewares/type.middleware';
 
 export class FileUploadRoutes {
   static get routes(): Router {
@@ -9,8 +10,9 @@ export class FileUploadRoutes {
     const fileUploadService = new FileUploadService();
     const controller = new FileUploadController(fileUploadService);
 
-    // Definir las rutas
-    router.use(FileUploadMiddleware.containFiles);
+    // Define routes with middlewares
+    router.use(FileUploadMiddleware.containFiles); // Middleware to check if files are present
+    router.use(TypeMiddleware.validTypes(['users', 'products', 'categories'])); // Middleware to validate type parameter
     router.post('/single/:type', controller.uploadFile);
     router.post('/multiple/:type', controller.uploadMultipleFiles);
 

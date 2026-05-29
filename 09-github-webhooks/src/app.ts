@@ -10,6 +10,7 @@ function main() {
   const app = express();
   const controller = new GithubController();
 
+  app.use(express.json()); // Middleware to parse JSON bodies
   app.post("/api/github", controller.webhookHandler);
 
   app.listen(envs.PORT, () => {

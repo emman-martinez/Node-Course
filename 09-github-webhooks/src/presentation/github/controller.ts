@@ -1,10 +1,14 @@
 import { Request, Response } from "express";
 import { GitHubService } from "../services/github.service";
+import { DiscordService } from "../services/discord.service";
 
 export class GithubController {
-  constructor(private readonly githubService = new GitHubService()) {}
+  constructor(
+    private readonly githubService = new GitHubService(),
+    private readonly discordService = new DiscordService(),
+  ) {}
 
-  webhookHandler = (req: Request, res: Response) => {
+  webhookHandler = async (req: Request, res: Response) => {
     const githubEvent = req.header("X-GitHub-Event") ?? "unknown";
     const payload = req.body;
     let message: string = "";
@@ -20,8 +24,17 @@ export class GithubController {
         message = `Received unsupported event: ${githubEvent}`;
     }
 
-    console.log({ message });
+    try {
+      const notificationSent = await this.discordService.notify(message);
 
-    res.status(201).send("Accepted");
+      if (!notificationSent) {
+        return res.status(500).json("Internal Server Error");
+      }
+
+      return res.status(202).send("Accepted");
+    } catch (error) {
+      console.error("Error sending notification to Discord:", error);
+      return res.status(500).json("Internal Server Error");
+    }
   };
 }

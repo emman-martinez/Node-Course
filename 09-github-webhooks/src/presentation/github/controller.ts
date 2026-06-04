@@ -13,6 +13,9 @@ export class GithubController {
       case "star":
         message = this.githubService.onStar(payload);
         break;
+      case "issues":
+        message = this.githubService.onIssues(payload);
+        break;
       default:
         message = `Received unsupported event: ${githubEvent}`;
     }

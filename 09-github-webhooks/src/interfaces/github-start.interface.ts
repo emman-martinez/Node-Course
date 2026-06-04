@@ -3,6 +3,13 @@ export interface GitHubStarPayload {
   starred_at: Date;
   repository: Repository;
   sender: Sender;
+  issue?: Issue;
+}
+
+interface Issue {
+  number: number;
+  title: string;
+  user: Sender;
 }
 
 interface Repository {

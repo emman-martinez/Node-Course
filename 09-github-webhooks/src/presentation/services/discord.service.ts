@@ -8,6 +8,13 @@ export class DiscordService {
   async notify(message: string): Promise<boolean> {
     const body = {
       content: message,
+      // embeds: [
+      //   {
+      //     image: {
+      //       url: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2MwM3FiZXd6cDBidmc5NnZ4ZmIxNzM1ZzF6cXVzaDkzeTMydnZ1dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/du3J3cXyzhj75IOgvA/giphy.gif",
+      //     },
+      //   },
+      // ],
     };
 
     const response = await fetch(this.discordWebhookUrl, {

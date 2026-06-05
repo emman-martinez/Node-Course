@@ -13,9 +13,9 @@ wss.on("connection", function connection(ws) {
 
   ws.send("Hello from WebSocket server!");
 
-  setInterval(() => {
-    ws.send("Current time: " + new Date().toLocaleTimeString());
-  }, 2000);
+  ws.on("close", function close() {
+    console.log("Client disconnected");
+  });
 });
 
-console.log("Server is running on ws://localhost:3000");
+console.log("Server is running on http://localhost:3000");

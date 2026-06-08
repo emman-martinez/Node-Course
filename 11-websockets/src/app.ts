@@ -8,7 +8,12 @@ wss.on("connection", function connection(ws) {
   ws.on("error", console.error);
 
   ws.on("message", function message(data) {
-    console.log("received: %s", data);
+    console.log("From the client: %s", data);
+    const payload = {
+      type: "custom-message",
+      payload: data.toString(),
+    };
+    ws.send(JSON.stringify(payload));
   });
 
   ws.send("Hello from WebSocket server!");

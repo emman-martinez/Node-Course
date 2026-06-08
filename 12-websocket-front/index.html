@@ -13,16 +13,23 @@
         <button>Enviar</button>
     </form>
 
-    <ul></ul>
+    <ul id="messages"></ul>
 
     <script>
         const socket = new WebSocket('ws://localhost:3000');
         const form = document.querySelector('form');
         const input = document.querySelector('input');
+        const messagesElement = document.querySelector('#messages');
 
         
         function sendMessage(message) {
             socket.send(message);
+        }
+
+        function renderMessage(message) {
+            const li = document.createElement('li');
+            li.innerHTML = message;
+            messagesElement.prepend(li);
         }
 
         form.addEventListener('submit', (event) => {
@@ -39,6 +46,11 @@
         socket.onclose = (event) => {
             console.log(event);
             console.log('Disconnected');
+        }
+
+        socket.onmessage = (event) => {
+            const { payload } = JSON.parse(event.data);
+            renderMessage(payload);
         }
     </script>
 </body>

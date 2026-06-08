@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Websockets - Status</h1>
+    <h1>Websockets - <small>Status</small></h1>
 
     <form>
         <input type="text" placeholder="Send message...">
@@ -16,40 +16,50 @@
     <ul id="messages"></ul>
 
     <script>
-        const socket = new WebSocket('ws://localhost:3000');
         const form = document.querySelector('form');
         const input = document.querySelector('input');
         const messagesElement = document.querySelector('#messages');
+        const statusElement = document.querySelector('small');
 
-        
-        function sendMessage(message) {
-            socket.send(message);
+        function connectToServer() {
+            const socket = new WebSocket('ws://localhost:3000');
+            function sendMessage(message) {
+                socket.send(message);
+            }
+
+            function renderMessage(message) {
+                const li = document.createElement('li');
+                li.innerHTML = message;
+                messagesElement.prepend(li);
+            }
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const message = input.value;
+                sendMessage(message);
+            });
+
+            socket.onopen = (event) => {
+                console.log('Connected');
+                statusElement.innerText = 'Online';
+            }
+
+            socket.onclose = (event) => {
+                console.log('Disconnected');
+                statusElement.innerText = 'Offline';
+
+                setTimeout(() => {
+                    connectToServer();
+                }, 1500);
+            }
+
+            socket.onmessage = (event) => {
+                const { payload } = JSON.parse(event.data);
+                renderMessage(payload);
+            }
         }
 
-        function renderMessage(message) {
-            const li = document.createElement('li');
-            li.innerHTML = message;
-            messagesElement.prepend(li);
-        }
-
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const message = input.value;
-            sendMessage(message);
-        });
-
-        socket.onopen = (event) => {
-            console.log('Connected');
-        }
-
-        socket.onclose = (event) => {
-            console.log('Disconnected');
-        }
-
-        socket.onmessage = (event) => {
-            const { payload } = JSON.parse(event.data);
-            renderMessage(payload);
-        }
+        connectToServer();
     </script>
 </body>
 </html>

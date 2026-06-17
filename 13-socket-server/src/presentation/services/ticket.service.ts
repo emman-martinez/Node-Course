@@ -40,4 +40,65 @@ export class TicketService {
       done: false,
     },
   ];
+
+  public get pendingTickets(): Ticket[] {
+    return this.tickets.filter((ticket) => !ticket.handleAtDesk);
+  }
+
+  public lastTicketNumber(): number {
+    return this.tickets.length > 0 ? this.tickets.at(-1)!.number : 0;
+  }
+
+  public createTicket() {
+    const newTicket: Ticket = {
+      id: UuidAdapter.v4(),
+      number: this.lastTicketNumber() + 1,
+      createdAt: new Date(),
+      done: false,
+      handleAtDesk: undefined,
+      handleAt: undefined,
+    };
+
+    this.tickets.push(newTicket);
+
+    return newTicket;
+  }
+
+  public drawTicket(desk: string) {
+    const pendingTickets = this.pendingTickets;
+
+    if (pendingTickets.length === 0) {
+      return {
+        status: "error",
+        message: "No pending tickets to handle.",
+      };
+    }
+
+    const ticket = pendingTickets[0];
+    ticket.handleAtDesk = desk;
+    ticket.handleAt = new Date();
+
+    return { status: "ok", ticket };
+  }
+
+  public completeTicket(id: string) {
+    const ticket = this.tickets.find((ticket) => ticket.id === id);
+
+    if (!ticket) {
+      return {
+        status: "error",
+        message: "Ticket not found.",
+      };
+    }
+
+    this.tickets.map((t) => {
+      if (t.id === id) {
+        t.done = true;
+      }
+
+      return t;
+    });
+
+    return { status: "ok", ticket };
+  }
 }

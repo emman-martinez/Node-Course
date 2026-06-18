@@ -2,7 +2,7 @@ import { UuidAdapter } from "../../config/uuid.adapter";
 import { Ticket } from "../../domain/interfaces/ticket";
 
 export class TicketService {
-  private readonly tickets: Ticket[] = [
+  public readonly tickets: Ticket[] = [
     {
       id: UuidAdapter.v4(),
       number: 1,
@@ -41,18 +41,24 @@ export class TicketService {
     },
   ];
 
+  private readonly workingOnTickets: Ticket[] = [];
+
   public get pendingTickets(): Ticket[] {
     return this.tickets.filter((ticket) => !ticket.handleAtDesk);
   }
 
-  public lastTicketNumber(): number {
+  public get lastWorkingOnTickets(): Ticket[] {
+    return this.workingOnTickets.slice(0, 4);
+  }
+
+  public get lastTicketNumber(): number {
     return this.tickets.length > 0 ? this.tickets.at(-1)!.number : 0;
   }
 
   public createTicket() {
     const newTicket: Ticket = {
       id: UuidAdapter.v4(),
-      number: this.lastTicketNumber() + 1,
+      number: this.lastTicketNumber + 1,
       createdAt: new Date(),
       done: false,
       handleAtDesk: undefined,
@@ -77,6 +83,8 @@ export class TicketService {
     const ticket = pendingTickets[0];
     ticket.handleAtDesk = desk;
     ticket.handleAt = new Date();
+
+    this.workingOnTickets.unshift({ ...ticket });
 
     return { status: "ok", ticket };
   }
